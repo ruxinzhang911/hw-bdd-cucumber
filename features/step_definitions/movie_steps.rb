@@ -19,8 +19,9 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  match = page.body =~ /#{e1}.*#{e2}/m
-  assert !match.nil?
+  expect(page.body.index(e1)).to be < page.body.index(e2)
+  #match = page.body =~ /#{e1}.*#{e2}/m
+  #assert !match.nil?
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -39,8 +40,4 @@ end
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
   page.should have_css("table#movies tbody tr", :count => Movie.count.to_i)
-end
-
-When /^I submit the search form on the homepages/ do
-  click_button 'Refresh'
 end
